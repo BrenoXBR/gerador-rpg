@@ -3,6 +3,7 @@ class UIManager {
         this.initializeModal();
         this.initializeAnimations();
         this.initializeDownload();
+        this.initializeImport();
     }
 
     initializeModal() {
@@ -197,6 +198,40 @@ class UIManager {
             }
         `;
         document.head.appendChild(style);
+    }
+
+    initializeImport() {
+        // Botão de importação do Mestre
+        const btnImport = document.getElementById('btnImport');
+        const importFile = document.getElementById('importFile');
+        
+        if (btnImport && importFile) {
+            btnImport.addEventListener('click', () => {
+                importFile.click();
+            });
+            
+            importFile.addEventListener('change', (e) => {
+                if (e.target.files[0]) {
+                    window.itemManager.importarDados(e.target.files[0]);
+                }
+            });
+        }
+        
+        // Botão de importação do Jogador
+        const btnImportPlayer = document.getElementById('btnImportPlayer');
+        const importFilePlayer = document.getElementById('importFilePlayer');
+        
+        if (btnImportPlayer && importFilePlayer) {
+            btnImportPlayer.addEventListener('click', () => {
+                importFilePlayer.click();
+            });
+            
+            importFilePlayer.addEventListener('change', (e) => {
+                if (e.target.files[0]) {
+                    window.itemManager.importarDados(e.target.files[0]);
+                }
+            });
+        }
     }
 
     initializeDownload() {

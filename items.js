@@ -40,6 +40,19 @@ class ItemManager {
                 this.updateRollFilters();
             });
         });
+
+        // Botões de importação/exportação
+        document.getElementById('exportBtn').addEventListener('click', () => {
+            this.exportItems();
+        });
+
+        document.getElementById('importBtn').addEventListener('click', () => {
+            document.getElementById('importFile').click();
+        });
+
+        document.getElementById('importFile').addEventListener('change', (e) => {
+            this.importItems(e.target.files[0]);
+        });
     }
 
     addBaseAttribute() {
@@ -484,10 +497,159 @@ class ItemManager {
         }
     }
 
-    showSuccess(message) {
-        if (window.authManager) {
-            window.authManager.showSuccess(message);
+    importarDados(file) {
+        if (!file) return;
+        
+        const reader = new FileReader();
+        
+        reader.onload = (e) => {
+            try {
+                const dados = JSON.parse(e.target.result);
+                
+                // Validar se é array
+                if (!Array.isArray(dados)) {
+                    this.showError('Arquivo inválido! O arquivo deve conter um array de itens.');
+                    return;
+                }
+                
+                // Salvar no localStorage
+                localStorage.setItem('itens', JSON.stringify(dados));
+                
+                // Atualizar lista de itens
+                this.items = dados;
+                this.loadItems();
+                
+                this.showSuccess(`${dados.length} itens importados com sucesso!`);
+                
+                // Limpar input
+                document.getElementById('importFile').value = '';
+                document.getElementById('importFilePlayer').value = '';
+                
+            } catch (error) {
+                this.showError('Erro ao ler arquivo JSON!');
+            }
+        };
+        
+        reader.readAsText(file);
+    }
+
+    exportItems() {
+        try {
+            // Obter itens do localStorage
+            const items = this.items;
+            
+            // Criar objeto de exportação com metadados
+            const exportData = {
+                version: '1.0',
+                exportDate: new Date().toISOString(),
+                itemCount: items.length,
+                items: items
+            };
+            
+            // Converter para JSON
+            const jsonString = JSON.stringify(exportData, null, 2);
+            
+            // Criar blob e download
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            
+            // Nome do arquivo com data
+            const fileName = `rpg-items-${new Date().toISOString().split('T')[0]}.json`;
+            
+            link.href = url;
+            link.download = fileName;
+            link.click();
+            
+            // Limpar
+            URL.revokeObjectURL(url);
+            
+            this.showSuccess(`${items.length} itens exportados com sucesso!`);
+        } catch (error) {
+            console.error('Erro ao exportar itens:', error);
+            this.showError('Erro ao exportar itens!');
         }
+    }
+
+    importItems(file) {
+        if (!file) {
+            return;
+        }
+        
+        if (file.type !== 'application/json') {
+            this.showError('Por favor, selecione um arquivo JSON válido!');
+            return;
+        }
+        
+        const reader = new FileReader();
+        
+        reader.onload = (e) => {
+            try {
+                const importData = JSON.parse(e.target.result);
+                
+                // Validar estrutura do arquivo
+                if (!importData.items || !Array.isArray(importData.items)) {
+                    this.showError('Arquivo JSON inválido! Estrutura não reconhecida.');
+                    return;
+                }
+                
+                // Validar cada item
+                const validItems = importData.items.filter(item => {
+                    return item.name && item.type && item.rarity;
+                });
+                
+                if (validItems.length === 0) {
+                    this.showError('Nenhum item válido encontrado no arquivo!');
+                    return;
+                }
+                
+                // Perguntar se quer substituir ou adicionar
+                if (this.items.length > 0) {
+                    if (confirm(`Deseja substituir os ${this.items.length} itens existentes pelos ${validItems.length} itens do arquivo?\n\nClique em "OK" para substituir ou "Cancelar" para adicionar.`)) {
+                        // Substituir todos os itens
+                        this.items = validItems;
+                    } else {
+                        // Adicionar itens novos (evitando duplicados pelo nome)
+                        const existingNames = new Set(this.items.map(item => item.name.toLowerCase()));
+                        const newItems = validItems.filter(item => !existingNames.has(item.name.toLowerCase()));
+                        
+                        if (newItems.length === 0) {
+                            this.showError('Todos os itens do arquivo já existem!');
+                            return;
+                        }
+                        
+                        this.items = [...this.items, ...newItems];
+                        this.showSuccess(`${newItems.length} novos itens adicionados!`);
+                    }
+                } else {
+                    // Primeira importação
+                    this.items = validItems;
+                }
+                
+                // Salvar e atualizar
+                this.saveItems();
+                this.loadItems();
+                
+                // Limpar input de arquivo
+                document.getElementById('importFile').value = '';
+                
+                const message = this.items.length > validItems.length 
+                    ? `${validItems.length} itens importados com sucesso! (${this.items.length} itens totais)`
+                    : `${validItems.length} itens importados com sucesso!`;
+                    
+                this.showSuccess(message);
+                
+            } catch (error) {
+                console.error('Erro ao importar itens:', error);
+                this.showError('Erro ao ler o arquivo JSON! Verifique se o arquivo está correto.');
+            }
+        };
+        
+        reader.onerror = () => {
+            this.showError('Erro ao ler o arquivo!');
+        };
+        
+        reader.readAsText(file);
     }
 }
 

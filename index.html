@@ -77,6 +77,14 @@
             <!-- Painel de Edição (apenas para Mestre) -->
             <section id="editPanel" class="edit-panel">
                 <h2>Criar Novo Item</h2>
+                
+                <!-- Botões de Importação/Exportação -->
+                <div class="data-management">
+                    <button id="exportBtn" class="btn-data">📥 Exportar Itens</button>
+                    <button id="btnImport" class="btn-data">📤 Importar Itens</button>
+                    <input type="file" id="importFile" accept=".json" style="display: none;">
+                </div>
+                
                 <form id="itemForm">
                     <div class="form-group">
                         <label for="itemName">Nome do Item</label>
@@ -138,6 +146,13 @@
             <!-- Painel de Sorteio -->
             <section class="roll-panel">
                 <h2>Sortear Item Aleatório</h2>
+                
+                <!-- Botão de Importação para Jogadores -->
+                <div class="data-management">
+                    <button id="btnImportPlayer" class="btn-data">📤 Importar Itens</button>
+                    <input type="file" id="importFilePlayer" accept=".json" style="display: none;">
+                </div>
+                
                 <div class="roll-controls">
                     <button id="rollBtn" class="btn-primary btn-large">🎲 SORTEAR ITEM</button>
                     <div class="roll-filters">
