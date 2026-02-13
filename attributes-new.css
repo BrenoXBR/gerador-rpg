@@ -1,0 +1,213 @@
+/* Estilos para o novo sistema de atributos dinâmicos */
+
+.base-attributes-section {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
+}
+
+.base-attributes-section h3 {
+    font-family: 'Cinzel', serif;
+    color: #d4af37;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.custom-attributes-section {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.custom-attributes-section h3 {
+    font-family: 'Cinzel', serif;
+    color: rgba(212, 175, 55, 0.8);
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.attributes-container {
+    margin-bottom: 20px;
+}
+
+.attribute-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    animation: fadeInUp 0.3s ease;
+    position: relative;
+}
+
+.base-attribute-row {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.1);
+}
+
+.base-attribute-row::before {
+    content: '📊';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 0.8rem;
+    color: rgba(212, 175, 55, 0.7);
+    font-weight: 600;
+}
+
+.attribute-row:not(.base-attribute-row)::before {
+    content: attr(data-index);
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 0.7rem;
+    color: rgba(212, 175, 55, 0.5);
+    font-weight: 600;
+}
+
+.attribute-input {
+    flex: 1;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 6px;
+    color: #e0d5c7;
+    font-family: 'Crimson Text', serif;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    margin-left: 20px; /* Espaço para o número do atributo */
+}
+
+.attribute-input:focus {
+    outline: none;
+    border-color: #d4af37;
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.attribute-input[type="number"] {
+    max-width: 120px;
+    text-align: center;
+}
+
+.attribute-input[type="text"]::placeholder {
+    color: rgba(224, 213, 199, 0.5);
+}
+
+.attribute-input[type="number"]::placeholder {
+    color: rgba(224, 213, 199, 0.5);
+}
+
+.btn-remove-attribute {
+    padding: 8px 12px;
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-remove-attribute:hover {
+    background: linear-gradient(135deg, #c82333, #a02622);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+.btn-add-attribute {
+    width: 100%;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.btn-add-attribute:hover {
+    background: linear-gradient(135deg, #218838, #1e7e34);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.no-attributes-message {
+    text-align: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px dashed rgba(212, 175, 55, 0.3);
+    margin-top: 10px;
+}
+
+.no-attributes-message p {
+    color: rgba(224, 213, 199, 0.7);
+    font-style: italic;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Esconder mensagem quando há atributos */
+.attributes-container:not(:empty) ~ .no-attributes-message {
+    display: none;
+}
+
+/* Responsividade para atributos dinâmicos */
+@media (max-width: 768px) {
+    .attribute-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 12px;
+    }
+    
+    .attribute-input {
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    .attribute-input[type="number"] {
+        max-width: 100%;
+    }
+    
+    .btn-remove-attribute {
+        align-self: flex-end;
+        width: 100%;
+        margin-top: 5px;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

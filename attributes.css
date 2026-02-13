@@ -1,0 +1,247 @@
+/* Estilos para a seção de atributos do formulário */
+
+.attributes-section {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.attributes-section h3 {
+    font-family: 'Cinzel', serif;
+    color: #d4af37;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.sub-stats-container h4 {
+    font-family: 'Cinzel', serif;
+    color: #d4af37;
+    margin: 20px 0 15px 0;
+    font-size: 1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    opacity: 0.8;
+}
+
+.sub-stat-group {
+    margin-bottom: 15px;
+}
+
+.sub-stat-inputs {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 10px;
+    align-items: center;
+}
+
+.sub-stat-inputs input[type="text"],
+.sub-stat-inputs input[type="number"] {
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 6px;
+    color: #e0d5c7;
+    font-family: 'Crimson Text', serif;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.sub-stat-inputs input:focus {
+    outline: none;
+    border-color: #d4af37;
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
+    background: rgba(0, 0, 0, 0.7);
+}
+
+/* Estilos para separadores de atributos */
+.sub-stats-divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0 15px 0;
+    position: relative;
+}
+
+.sub-stats-divider::before {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(212, 175, 55, 0.3), 
+        transparent
+    );
+}
+
+.sub-stats-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(212, 175, 55, 0.3), 
+        transparent
+    );
+}
+
+.divider-text {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    color: rgba(212, 175, 55, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0 15px;
+    white-space: nowrap;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Garantir que o brilho de raridade envolva toda a carta */
+.item-card {
+    background: 
+        linear-gradient(135deg, 
+            rgba(26, 26, 26, 0.95) 0%, 
+            rgba(45, 24, 16, 0.9) 25%, 
+            rgba(26, 26, 26, 0.95) 50%, 
+            rgba(15, 15, 15, 0.98) 100%
+        ),
+        radial-gradient(circle at 30% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(139, 105, 20, 0.1) 0%, transparent 50%);
+    border-radius: 20px;
+    overflow: visible; /* Alterado para visible para o brilho funcionar */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    margin: 20px auto;
+    max-width: 380px;
+    width: 100%;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        inset 0 0 20px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(212, 175, 55, 0.1);
+}
+
+/* Ajuste no brilho pulsante para cobrir toda a carta */
+.rarity-comum::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 20px;
+    border: 2px solid #808080;
+    animation: pulseGlow 2s ease-in-out infinite;
+    z-index: -1;
+    box-shadow: 0 0 20px rgba(128, 128, 128, 0.6);
+}
+
+.rarity-incomum::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 20px;
+    border: 2px solid #00ff00;
+    animation: pulseGlow 2s ease-in-out infinite;
+    z-index: -1;
+    box-shadow: 0 0 25px rgba(0, 255, 0, 0.7);
+}
+
+.rarity-raro::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 20px;
+    border: 2px solid #0080ff;
+    animation: pulseGlow 2s ease-in-out infinite;
+    z-index: -1;
+    box-shadow: 0 0 30px rgba(0, 128, 255, 0.8);
+}
+
+.rarity-legendario::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 20px;
+    border: 2px solid #ffd700;
+    animation: pulseGlow 1.5s ease-in-out infinite;
+    z-index: -1;
+    box-shadow: 0 0 35px rgba(255, 215, 0, 0.9);
+}
+
+.rarity-mitico::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 20px;
+    border: 2px solid #ff0000;
+    animation: pulseGlow 1s ease-in-out infinite;
+    z-index: -1;
+    box-shadow: 0 0 40px rgba(255, 0, 0, 1);
+}
+
+/* Responsividade para campos de atributos */
+@media (max-width: 768px) {
+    .attributes-section {
+        padding: 15px;
+        margin-top: 15px;
+    }
+    
+    .sub-stat-inputs {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .attributes-section h3 {
+        font-size: 1.1rem;
+    }
+    
+    .sub-stats-container h4 {
+        font-size: 0.9rem;
+    }
+}
+
+/* Animações para os campos de atributos */
+.sub-stat-inputs input {
+    animation: fadeInUp 0.3s ease forwards;
+    opacity: 0;
+}
+
+.sub-stat-group:nth-child(1) .sub-stat-inputs input {
+    animation-delay: 0.1s;
+}
+
+.sub-stat-group:nth-child(2) .sub-stat-inputs input {
+    animation-delay: 0.2s;
+}
+
+.sub-stat-group:nth-child(3) .sub-stat-inputs input {
+    animation-delay: 0.3s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

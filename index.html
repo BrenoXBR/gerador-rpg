@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Itens RPG</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Tela de Login -->
+    <div id="loginScreen" class="screen">
+        <div class="auth-container">
+            <div class="auth-box">
+                <h1>🎲 Gerador de Itens RPG</h1>
+                <div class="auth-tabs">
+                    <button class="tab-btn active" data-tab="login">Login</button>
+                    <button class="tab-btn" data-tab="register">Cadastro</button>
+                </div>
+                
+                <!-- Formulário de Login -->
+                <form id="loginForm" class="auth-form active">
+                    <div class="form-group">
+                        <label for="loginUsername">Usuário</label>
+                        <input type="text" id="loginUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Senha</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="radio" name="userType" value="mestre" checked> Mestre
+                        </label>
+                        <label>
+                            <input type="radio" name="userType" value="jogador"> Jogador
+                        </label>
+                    </div>
+                    <button type="submit" class="btn-primary">Entrar</button>
+                </form>
+                
+                <!-- Formulário de Cadastro -->
+                <form id="registerForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="registerUsername">Usuário</label>
+                        <input type="text" id="registerUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Senha</label>
+                        <input type="password" id="registerPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirmar Senha</label>
+                        <input type="password" id="confirmPassword" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Cadastrar</button>
+                </form>
+                
+                <div class="auth-links">
+                    <a href="#" id="switchToRegister">Não tem conta? Cadastre-se</a>
+                    <a href="#" id="switchToLogin" style="display: none;">Já tem conta? Faça login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tela Principal -->
+    <div id="mainScreen" class="screen" style="display: none;">
+        <header>
+            <h1>🎲 Gerador de Itens RPG</h1>
+            <div class="user-info">
+                <span id="currentUser"></span>
+                <button id="logoutBtn" class="btn-secondary">Sair</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Painel de Edição (apenas para Mestre) -->
+            <section id="editPanel" class="edit-panel">
+                <h2>Criar Novo Item</h2>
+                <form id="itemForm">
+                    <div class="form-group">
+                        <label for="itemName">Nome do Item</label>
+                        <input type="text" id="itemName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemType">Tipo</label>
+                        <select id="itemType">
+                            <option value="arma">Arma</option>
+                            <option value="armadura">Armadura</option>
+                            <option value="consumivel">Consumível</option>
+                            <option value="acessorio">Acessório</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemRarity">Raridade</label>
+                        <select id="itemRarity">
+                            <option value="comum">Comum</option>
+                            <option value="incomum">Incomum</option>
+                            <option value="raro">Raro</option>
+                            <option value="épico">Épico</option>
+                            <option value="lendário">Lendário</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemDescription">Descrição</label>
+                        <textarea id="itemDescription" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemImage">URL da Imagem</label>
+                        <input type="url" id="itemImage" placeholder="https://exemplo.com/imagem.jpg">
+                    </div>
+                    
+                    <!-- Atributos Base -->
+                    <div class="attributes-section">
+                        <h3>Atributos Base</h3>
+                        <div id="baseAttributes"></div>
+                        <button type="button" id="addBaseAttributeBtn" class="btn-secondary">+ ADICIONAR ATRIBUTO BASE</button>
+                    </div>
+                    
+                    <!-- Atributos Personalizados -->
+                    <div class="custom-attributes-section">
+                        <h3>Atributos Personalizados</h3>
+                        <div id="customAttributes"></div>
+                        <button type="button" id="addAttributeBtn" class="btn-secondary">+ ADICIONAR STATUS</button>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Salvar Item</button>
+                        <button type="button" id="cancelEditBtn" class="btn-secondary">Cancelar</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Painel de Sorteio -->
+            <section class="roll-panel">
+                <h2>Sortear Item Aleatório</h2>
+                <div class="roll-controls">
+                    <button id="rollBtn" class="btn-primary btn-large">🎲 SORTEAR ITEM</button>
+                    <div class="roll-filters">
+                        <label>
+                            <input type="checkbox" id="filterArma" checked> Armas
+                        </label>
+                        <label>
+                            <input type="checkbox" id="filterArmadura" checked> Armaduras
+                        </label>
+                        <label>
+                            <input type="checkbox" id="filterConsumivel" checked> Consumíveis
+                        </label>
+                        <label>
+                            <input type="checkbox" id="filterAcessorio" checked> Acessórios
+                        </label>
+                    </div>
+                </div>
+                
+                <div id="rollResult" class="roll-result" style="display: none;">
+                    <div class="item-card" id="rolledItemCard">
+                        <div class="item-image">
+                            <img src="" alt="" id="rolledItemImage">
+                        </div>
+                        <div class="item-header">
+                            <h3 id="rolledItemName"></h3>
+                            <span id="rolledItemRarity" class="item-rarity"></span>
+                        </div>
+                        <div class="item-meta">
+                            <span id="rolledItemType"></span>
+                        </div>
+                        <p id="rolledItemDescription" class="item-description"></p>
+                        <div id="rolledItemAttributes" class="item-attributes"></div>
+                    </div>
+                    <button id="downloadBtn" class="btn-download" style="display: none;">📥 Baixar Carta</button>
+                </div>
+            </section>
+
+            <!-- Lista de Itens (apenas para Mestre) -->
+            <section id="itemsList" class="items-list" style="display: none;">
+                <h2>Itens Cadastrados</h2>
+                <div id="itemsGrid" class="items-grid"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal de Confirmação de Exclusão -->
+    <div id="deleteModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Confirmar Exclusão</h3>
+            <p>Tem certeza que deseja excluir este item?</p>
+            <div class="modal-actions">
+                <button id="confirmDeleteBtn" class="btn-danger">Excluir</button>
+                <button id="cancelDeleteBtn" class="btn-secondary">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="auth.js"></script>
+    <script src="items.js"></script>
+    <script src="ui.js"></script>
+</body>
+</html>
