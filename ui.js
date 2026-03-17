@@ -212,7 +212,7 @@ class UIManager {
             
             importFile.addEventListener('change', (e) => {
                 if (e.target.files[0]) {
-                    window.itemManager.importarDados(e.target.files[0]);
+                    window.itemManager.importItems(e.target.files[0]);
                 }
             });
         }
@@ -228,7 +228,7 @@ class UIManager {
             
             importFilePlayer.addEventListener('change', (e) => {
                 if (e.target.files[0]) {
-                    window.itemManager.importarDados(e.target.files[0]);
+                    window.itemManager.importItems(e.target.files[0]);
                 }
             });
         }
