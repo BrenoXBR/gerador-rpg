@@ -492,45 +492,42 @@ class ItemManager {
     }
 
     showError(message) {
-        if (window.authManager) {
-            window.authManager.showError(message);
-        }
+        this.showMessage(message, 'error');
     }
 
-    importarDados(file) {
-        if (!file) return;
-        
-        const reader = new FileReader();
-        
-        reader.onload = (e) => {
-            try {
-                const dados = JSON.parse(e.target.result);
-                
-                // Validar se é array
-                if (!Array.isArray(dados)) {
-                    this.showError('Arquivo inválido! O arquivo deve conter um array de itens.');
-                    return;
+    showSuccess(message) {
+        this.showMessage(message, 'success');
+    }
+
+    showMessage(message, type) {
+        // Criar elemento de mensagem
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message message-${type}`;
+        messageDiv.textContent = message;
+        messageDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            ${type === 'error' ? 'background: #e74c3c;' : 'background: #27ae60;'}
+        `;
+
+        document.body.appendChild(messageDiv);
+
+        // Remover após 3 segundos
+        setTimeout(() => {
+            messageDiv.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.parentNode.removeChild(messageDiv);
                 }
-                
-                // Salvar no localStorage
-                localStorage.setItem('itens', JSON.stringify(dados));
-                
-                // Atualizar lista de itens
-                this.items = dados;
-                this.loadItems();
-                
-                this.showSuccess(`${dados.length} itens importados com sucesso!`);
-                
-                // Limpar input
-                document.getElementById('importFile').value = '';
-                document.getElementById('importFilePlayer').value = '';
-                
-            } catch (error) {
-                this.showError('Erro ao ler arquivo JSON!');
-            }
-        };
-        
-        reader.readAsText(file);
+            }, 300);
+        }, 3000);
     }
 
     exportItems() {
