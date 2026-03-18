@@ -46,7 +46,7 @@ class ItemManager {
             this.exportItems();
         });
 
-        document.getElementById('importBtn').addEventListener('click', () => {
+        document.getElementById('btnImport').addEventListener('click', () => {
             document.getElementById('importFile').click();
         });
 
